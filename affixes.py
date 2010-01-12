@@ -14,7 +14,7 @@ _suffixes = ['Jr', 'Sr', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII',
             'DPhil', 'MA', 'MF', 'MBA', 'MSc', 'MEd', 'EdD', 'DMin',
             'AB', 'BA', 'BFA', 'BSc', 'Esq', 'Esquire', 'MP', "MS",
             'USA', 'USAF', 'USMC', 'USCG', 'Ret', r'\(Ret\)',
-            'CPA',]
+            'CPA', 'Junior', 'Senior',]
 
 _prefixes = ['Mr', 'Mister', 'Mrs', 'Ms', 'Miss', 'Dr', 'Doctor',
              'Professor', 'The', 'Honou?rable', 'Chief', 'Justice',
@@ -38,10 +38,10 @@ _prefixes = ['Mr', 'Mister', 'Mrs', 'Ms', 'Miss', 'Dr', 'Doctor',
 # plenty of people out there mistakenly writing things like 'J.r.',
 # so we go ahead and allow periods between any letters
 _suffix_pattern = [r"\.?".join(suffix) for suffix in _suffixes]
-_suffix_pattern = r'\W*,?\W+(%s)\.?,?\W*$' % r"|".join(_suffix_pattern)
+_suffix_pattern = r'\W*,?(\W+(%s)\.?,?)+\W*$' % r"|".join(_suffix_pattern)
 _suffix_pattern = re.compile(_suffix_pattern, re.IGNORECASE)
 
-_prefix_pattern = r'^\W*(%s)\.?(\W+|$)' % r"|".join(_prefixes)
+_prefix_pattern = r'^\W*((%s)\.?(\W+|$))+' % r"|".join(_prefixes)
 _prefix_pattern = re.compile(_prefix_pattern, re.IGNORECASE)
 
 def drop_affixes(name):
@@ -61,7 +61,29 @@ def drop_affixes(name):
     >>> drop_affixes(" Stephens, Michael ")
     'Stephens, Michael'
     """
-    return drop_prefixes(drop_suffixes(name))
+    return split_affixes(name)[1]
+
+def split_affixes(name):
+    """
+    >>> split_affixes("Mr. Michael Stephens, Jr.")
+    ('Mr.', 'Michael Stephens', 'Jr.')
+    >>> split_affixes("Lieutenant Col. Michael Stephens III, U.S.M.C. (Ret)")
+    ('Lieutenant Col.', 'Michael Stephens', 'III, U.S.M.C. (Ret)')
+    >>> split_affixes(" His Honour, Mayor M. Stephens III, J.D., M.D., RN ")
+    ('His Honour, Mayor', 'M. Stephens', 'III, J.D., M.D., RN')
+    >>> split_affixes("Mr. Chief Justice")
+    ('Mr. Chief Justice', '', '')
+    >>> split_affixes("Michael Stephens")
+    ('', 'Michael Stephens', '')
+    >>> split_affixes(" Michael Stephens ")
+    ('', 'Michael Stephens', '')
+    >>> split_affixes(" Stephens, Michael ")
+    ('', 'Stephens, Michael', '')
+    """
+    prefixes, name = split_prefixes(name)
+    name, suffixes = split_suffixes(name)
+
+    return (prefixes, name, suffixes)
 
 def drop_suffixes(name):
     """
@@ -76,14 +98,29 @@ def drop_suffixes(name):
     >>> drop_suffixes("Stephens, M.")
     'Stephens, M.'
     """
-    # We'll count trailing spaces as a suffix
+    return split_suffixes(name)[0]
+
+def split_suffixes(name):
+    """
+    >>> split_suffixes("Michael Stephens, Ph.D. J.D, USAF (Ret) III Esq")
+    ('Michael Stephens', 'Ph.D. J.D, USAF (Ret) III Esq')
+    >>> split_suffixes("Michael Stephens Jr  C.P.A ")
+    ('Michael Stephens', 'Jr  C.P.A')
+    >>> split_suffixes("Stephens, Michael Jr.")
+    ('Stephens, Michael', 'Jr.')
+    >>> split_suffixes("Stephens, Michael ")
+    ('Stephens, Michael', '')
+    >>> split_suffixes("Stephens, M.")
+    ('Stephens, M.', '')
+    """
     name = name.rstrip()
 
-    (name, count) = _suffix_pattern.subn('', name, 1)
-    while count > 0:
-        (name, count) = _suffix_pattern.subn('', name, 1)
+    match = _suffix_pattern.search(name)
+    if match:
+        return (name[0:match.start()].rstrip(),
+                match.group().strip(', \t\r\n'))
 
-    return name
+    return (name, '')
 
 def drop_prefixes(name):
     """
@@ -102,13 +139,33 @@ def drop_prefixes(name):
     >>> drop_prefixes("M. Stephens")
     'M. Stephens'
     """
+    return split_prefixes(name)[1]
+
+def split_prefixes(name):
+    """
+    >>> split_prefixes("Mr. Michael Stephens")
+    ('Mr.', 'Michael Stephens')
+    >>> split_prefixes("Mr Michael Stephens")
+    ('Mr', 'Michael Stephens')
+    >>> split_prefixes(" Doctor Michael Stephens")
+    ('Doctor', 'Michael Stephens')
+    >>> split_prefixes("The  Honorable Michael Stephens")
+    ('The  Honorable', 'Michael Stephens')
+    >>> split_prefixes("The Hon Mr. Michael Stephens")
+    ('The Hon Mr.', 'Michael Stephens')
+    >>> split_prefixes("  Michael Stephens")
+    ('', 'Michael Stephens')
+    >>> split_prefixes("M. Stephens")
+    ('', 'M. Stephens')
+    """
     name = name.lstrip()
 
-    (name, count) = _prefix_pattern.subn('', name, 1)
-    while count > 0:
-        (name, count) = _prefix_pattern.subn('', name, 1)
+    match = _prefix_pattern.match(name)
+    if match:
+        return (match.group(0).strip(),
+                name[match.end():len(name)].lstrip())
 
-    return name
+    return ('', name)
 
 if __name__ == '__main__':
     import doctest
