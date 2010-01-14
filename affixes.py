@@ -13,7 +13,7 @@ _suffixes = ['Jr', 'Sr', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII',
             'PhD', 'MD', 'DD', 'JD', 'PharmD', 'PsyD', 'RN', 'EngD',
             'DPhil', 'MA', 'MF', 'MBA', 'MSc', 'MEd', 'EdD', 'DMin',
             'AB', 'BA', 'BFA', 'BSc', 'Esq', 'Esquire', 'MP', "MS",
-            'USA', 'USAF', 'USMC', 'USCG', 'Ret', r'\(Ret\)',
+            'USA', 'USAF', 'USMC', 'USCG', 'USN', 'Ret', r'\(Ret\)',
             'CPA', 'Junior', 'Senior',]
 
 _prefixes = ['Mr', 'Mister', 'Mrs', 'Ms', 'Miss', 'Dr', 'Doctor',
@@ -32,7 +32,7 @@ _prefixes = ['Mr', 'Mister', 'Mrs', 'Ms', 'Miss', 'Dr', 'Doctor',
              'Major', 'Maj', 'Officer', 'Pilot',
              'Warrant', 'Officer', 'Cadet', 'Reverand',
              'Minister', 'Venerable', 'Father', 'Mother', 'Brother',
-             'Sister', 'Rabbi',]
+             'Sister', 'Rabbi', 'Fleet',]
 
 # The suffixes are obviously not all acronyms but there are probably
 # plenty of people out there mistakenly writing things like 'J.r.',
