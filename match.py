@@ -1,14 +1,14 @@
 import re
 from affixes import drop_prefixes, drop_suffixes
+from split import split
 from itertools import combinations
 import string
-import split
 
 def initial_initial(name):
-    parts = name.split(' ')
-    if parts:
-        name = parts[0][0] + " " + " ".join(parts[1:])
-    return name
+    pre, fp, lp, suff = split(name)
+    if fp:
+        fp = fp[0]
+    return " ".join([p for p in [pre, fp, lp, suff] if p])
 
 def middle_initials(name):
     parts = name.split(' ')
@@ -20,7 +20,7 @@ def middle_initials(name):
     return name
 
 def last_only(name):
-    return split.split(name)[2]
+    return split(name)[2]
 
 _funcs = {string.lower: 0.01,
           (lambda s: s.replace('.', '')): 0.02,
@@ -43,6 +43,12 @@ for n in xrange(0, len(_funcs)):
 
 def match(name1, name2):
     """
+    Provide a measure of the similarity between two name, considering factors
+    such as differing word order ('Bond, James' and 'James Bond'), use of
+    initials ('J. R. R. Tolkien' and 'John Ronal Reuel Tolkien') and
+    various titles and honorifics ('Fleet Admiral William Frederick Halsey,
+    Jr., USN', and 'William Frederick Halsey').
+
     >>> match("Michael Stephens", "Michael Stephens")
     1.0
     >>> abs(match("michael stephens", "Michael Stephens") - 0.99) < 0.001
@@ -50,8 +56,6 @@ def match(name1, name2):
     >>> abs(match("michaeL StepHens", "MichaEl StePhens") - 0.98) < 0.001
     True
     >>> abs(match("Michael J. Stephens", "Michael J Stephens") - 0.98) < 0.001
-    True
-    >>> abs(match("M. J. Stephens", "M J. Stephens") - 0.97) < 0.001
     True
     >>> abs(match("Michael Stephens", "Mr. Michael Stephens") - 0.95) < 0.001
     True
