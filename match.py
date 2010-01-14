@@ -2,12 +2,34 @@ import re
 from affixes import drop_prefixes, drop_suffixes
 from itertools import combinations
 import string
+import split
+
+def initial_initial(name):
+    parts = name.split(' ')
+    if parts:
+        name = parts[0][0] + " " + " ".join(parts[1:])
+    return name
+
+def middle_initials(name):
+    parts = name.split(' ')
+    name = parts[0]
+    for part in parts[1:-1]:
+        name += " " + part[0]
+    if len(parts) > 1:
+        name += " " + parts[-1]
+    return name
+
+def last_only(name):
+    return split.split(name)[1]
 
 _funcs = {string.lower: 0.01,
           (lambda s: s.replace('.', '')): 0.02,
           (lambda s: s.replace(',', '')): 0.02,
+          initial_initial: 0.03,
+          middle_initials: 0.03,
           drop_prefixes: 0.05,
-          drop_suffixes: 0.05,}
+          drop_suffixes: 0.05,
+          last_only: 0.20,}
 # other things to consider:
 # Michael Stephens -> Stephens, Michael
 # accented characters -> unaccented equiv.
@@ -29,13 +51,19 @@ def match(name1, name2):
     True
     >>> abs(match("Michael J. Stephens", "Michael J Stephens") - 0.98) < 0.001
     True
-    >>> abs(match("M. J. Stephens", "M J. Stephens") - 0.96) < 0.001
+    >>> abs(match("M. J. Stephens", "M J. Stephens") - 0.97) < 0.001
     True
     >>> abs(match("Michael Stephens", "Mr. Michael Stephens") - 0.95) < 0.001
     True
     >>> abs(match("Mr. Michael Stephens", "Michael Stephens, M.S.") - 0.90) < 0.001
     True
     >>> abs(match("Mr. M. Stephens, Jr.", "Dr. M Stephens, USMC (Ret)") - 0.78) < 0.001
+    True
+    >>> abs(match("Michael Joseph Stephens", "Michael J Stephens") - 0.97) < 0.001
+    True
+    >>> abs(match("M Stephens", "Michael Stephens") - 0.97) < 0.001
+    True
+    >>> abs(match("Michael Stephens", "Stephens") - 0.80) < 0.001
     True
     >>> match("Michael Stephens", "Bob Smith")
     0.0
