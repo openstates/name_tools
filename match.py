@@ -20,7 +20,7 @@ def middle_initials(name):
     return name
 
 def last_only(name):
-    return split.split(name)[1]
+    return split.split(name)[2]
 
 _funcs = {string.lower: 0.01,
           (lambda s: s.replace('.', '')): 0.02,
