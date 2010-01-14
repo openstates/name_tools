@@ -4,11 +4,13 @@ from split import split
 from itertools import combinations
 import string
 
+
 def initial_initial(name):
     pre, fp, lp, suff = split(name)
     if fp:
         fp = fp[0]
     return " ".join([p for p in [pre, fp, lp, suff] if p])
+
 
 def middle_initials(name):
     parts = name.split(' ')
@@ -19,27 +21,38 @@ def middle_initials(name):
         name += " " + parts[-1]
     return name
 
+
 def last_only(name):
     return split(name)[2]
+
+
+def first_first(name):
+    parts = split(name)
+    return " ".join([p for p in parts if p])
+
+
+def last_first(name):
+    pre, fp, lp, suf = split(name)
+    if lp:
+        lp += ", "
+    return lp + " ".join([p for p in [pre, fp, suf] if p])
+
 
 _funcs = {string.lower: 0.01,
           (lambda s: s.replace('.', '')): 0.02,
           (lambda s: s.replace(',', '')): 0.02,
-          initial_initial: 0.03,
-          middle_initials: 0.03,
+          initial_initial: 0.10,
+          middle_initials: 0.10,
           drop_prefixes: 0.05,
           drop_suffixes: 0.05,
-          last_only: 0.20,}
-# other things to consider:
-# Michael Stephens -> Stephens, Michael
-# accented characters -> unaccented equiv.
-# just last name
-# remove consecutive inner spaces (probably no penalty)
-# some sort of soundex thing?
+          first_first: 0.02,
+          last_first: 0.02,
+          last_only: 0.20}
 
 _combinations = []
 for n in xrange(0, len(_funcs)):
     _combinations.extend(combinations(_funcs.items(), n))
+
 
 def match(name1, name2):
     """
@@ -63,9 +76,9 @@ def match(name1, name2):
     True
     >>> abs(match("Mr. M. Stephens, Jr.", "Dr. M Stephens, USMC (Ret)") - 0.78) < 0.001
     True
-    >>> abs(match("Michael Joseph Stephens", "Michael J Stephens") - 0.97) < 0.001
+    >>> abs(match("Michael Joseph Stephens", "Michael J Stephens") - 0.90) < 0.001
     True
-    >>> abs(match("M Stephens", "Michael Stephens") - 0.97) < 0.001
+    >>> abs(match("M Stephens", "Michael Stephens") - 0.90) < 0.001
     True
     >>> abs(match("Michael Stephens", "Stephens") - 0.80) < 0.001
     True
@@ -101,6 +114,7 @@ def match(name1, name2):
                     max = score
 
     return max
+
 
 if __name__ == '__main__':
     import doctest

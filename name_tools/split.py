@@ -3,11 +3,12 @@ import re
 
 # List of compound prefixes adapted from
 # http://code.google.com/p/php-name-parser/
-_compound_prefixes = ['vere', 'von', 'van', 'de', 'del', 'della', 'di', 'da', 
+_compound_prefixes = ['vere', 'von', 'van', 'de', 'del', 'della', 'di', 'da',
                       'pietro', 'vanden', 'du', r'st\.', 'st', 'la', 'ter',
                       'bin']
 _compound_pattern = re.compile(r'\b(%s)\b.+$' % r'|'.join(_compound_prefixes),
                                re.IGNORECASE)
+
 
 def split(name):
     """
@@ -72,6 +73,7 @@ def split(name):
             last_part = words[-1]
 
     return (prefixes, first_part.strip(), last_part.strip(), suffixes)
+
 
 if __name__ == '__main__':
     import doctest

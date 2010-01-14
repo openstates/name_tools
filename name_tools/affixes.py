@@ -14,7 +14,7 @@ _suffixes = ['Jr', 'Sr', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII',
             'DPhil', 'MA', 'MF', 'MBA', 'MSc', 'MEd', 'EdD', 'DMin',
             'AB', 'BA', 'BFA', 'BSc', 'Esq', 'Esquire', 'MP', "MS",
             'USA', 'USAF', 'USMC', 'USCG', 'USN', 'Ret', r'\(Ret\)',
-            'CPA', 'Junior', 'Senior',]
+            'CPA', 'Junior', 'Senior']
 
 _prefixes = ['Mr', 'Mister', 'Mrs', 'Ms', 'Miss', 'Dr', 'Doctor',
              'Professor', 'The', 'Honou?rable', 'Chief', 'Justice',
@@ -25,14 +25,14 @@ _prefixes = ['Mr', 'Mister', 'Mrs', 'Ms', 'Miss', 'Dr', 'Doctor',
              'President', 'Chair(wo)?man', 'Pres', 'Governor',
              'Gov', 'Assembly\W+Member', 'Highness', 'Hon',
              'Prime\W+Minister', r'P\.?M', 'Admiral', 'Adm',
-             'Colonel', 'Col', 'General', 'Gen',  'Captain',
+             'Colonel', 'Col', 'General', 'Gen', 'Captain',
              'Capt', 'Corporal', 'CPL', 'PFC', 'Private',
              r'First\W+Class', 'Sergeant', 'Sgt', 'Commissioner',
              'Lieutenant', 'Lt', 'Lieut', 'Brigadier',
              'Major', 'Maj', 'Officer', 'Pilot',
              'Warrant', 'Officer', 'Cadet', 'Reverand',
              'Minister', 'Venerable', 'Father', 'Mother', 'Brother',
-             'Sister', 'Rabbi', 'Fleet',]
+             'Sister', 'Rabbi', 'Fleet']
 
 # The suffixes are obviously not all acronyms but there are probably
 # plenty of people out there mistakenly writing things like 'J.r.',
@@ -43,6 +43,7 @@ _suffix_pattern = re.compile(_suffix_pattern, re.IGNORECASE)
 
 _prefix_pattern = r'^\W*((%s)\.?(\W+|$))+' % r"|".join(_prefixes)
 _prefix_pattern = re.compile(_prefix_pattern, re.IGNORECASE)
+
 
 def drop_affixes(name):
     """
@@ -62,6 +63,7 @@ def drop_affixes(name):
     'Stephens, Michael'
     """
     return split_affixes(name)[1]
+
 
 def split_affixes(name):
     """
@@ -85,6 +87,7 @@ def split_affixes(name):
 
     return (prefixes, name, suffixes)
 
+
 def drop_suffixes(name):
     """
     >>> drop_suffixes("Michael Stephens, Ph.D. J.D, USAF (Ret) III Esq")
@@ -99,6 +102,7 @@ def drop_suffixes(name):
     'Stephens, M.'
     """
     return split_suffixes(name)[0]
+
 
 def split_suffixes(name):
     """
@@ -118,9 +122,10 @@ def split_suffixes(name):
     match = _suffix_pattern.search(name)
     if match:
         return (name[0:match.start()].rstrip(),
-                match.group().strip(', \t\r\n'))
+                match.group().lstrip('., \t\r\n'))
 
     return (name, '')
+
 
 def drop_prefixes(name):
     """
@@ -140,6 +145,7 @@ def drop_prefixes(name):
     'M. Stephens'
     """
     return split_prefixes(name)[1]
+
 
 def split_prefixes(name):
     """
@@ -166,6 +172,7 @@ def split_prefixes(name):
                 name[match.end():len(name)].lstrip())
 
     return ('', name)
+
 
 if __name__ == '__main__':
     import doctest
