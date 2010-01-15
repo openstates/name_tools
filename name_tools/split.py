@@ -75,6 +75,49 @@ def split(name):
     return (prefixes, first_part.strip(), last_part.strip(), suffixes)
 
 
+_namecase = {'ii': 'II', 'iii': 'III', 'iv': 'IV', 'vi': 'VI', 'vii': 'vii'}
+
+
+def namecase(name):
+    """
+    >>> namecase('michael stephens')
+    'Michael Stephens'
+    >>> namecase('m. stephens')
+    'M. Stephens'
+    >>> namecase('m.j. stephens')
+    'M.J. Stephens'
+    >>> namecase('Michael Stephens, iii')
+    'Michael Stephens, III'
+    >>> namecase("michael o'stephens")
+    "Michael O'Stephens"
+    """
+    return re.sub(r"[A-Za-z]+('[A-Za-z]+])?",
+                  lambda mo: _namecase.get(mo.group(0).lower(),
+                                           mo.group(0).title()),
+                  name)
+
+
+def canonicalize(name):
+    """
+    >>> canonicalize('  stephens, michael jr.')
+    'Michael Stephens, Jr.'
+    >>> canonicalize('MICHAEL, JR.')
+    'Michael, Jr.'
+    >>> canonicalize('Father Michael X. y. stephens, III, u.s.c.g.')
+    'Father Michael X. Y. Stephens, III, U.S.C.G.'
+    """
+    prefixes, first_part, last_part, suffixes = split(name)
+    canonical = ""
+    if prefixes:
+        canonical = namecase(prefixes)
+    if first_part:
+        canonical += " " + namecase(first_part)
+    if last_part:
+        canonical += " " + namecase(last_part)
+    if suffixes:
+        canonical += ", " + namecase(suffixes)
+    return canonical.strip()
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
