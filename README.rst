@@ -24,6 +24,17 @@ middle names, middle initials), a last name, and suffixes ('Jr.',
   >>> name_tools.split("Dick van Dyke")
   ('', 'Dick', 'van Dyke', '')
 
+`name_tools.canonicalize(name)` returns a name in a canonical format:
+'Prefixes First Last, Suffixes', with extra spaces removed and words
+capitalized.
+
+  >>> name_tools.canonicalize('  WASHBURNE,  zoe alleyne')
+  'Zoe Alleyne Washburne'
+  >>> name_tools.canonicalize('DR. simon tam')
+  'Dr. Simon Tam'
+  >>> name_tools.canonicalize(' thurston b. howell iii')
+  'Thurston B. Howell, III'
+  
 `name_tools.match(name1, name2)` provides a measure of the
 similarity between two name, considering factors such as differing word
 order ('Bond, James' and 'James Bond'), use of initials
