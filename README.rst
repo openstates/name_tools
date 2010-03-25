@@ -2,7 +2,9 @@
 name_tools
 ==========
 
-A Python library for manipulating and comparing Western-style personal names.
+A Python library for manipulating and comparing English, Western-style personal names.
+
+Released under a BSD-style license.
 
 Source: http://github.com/mikejs/name_tools
 
