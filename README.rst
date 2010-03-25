@@ -6,6 +6,21 @@ A Python library for manipulating and comparing Western-style personal names.
 
 Source: http://github.com/mikejs/name_tools
 
+Installation
+============
+
+To install from PyPI run
+
+   ``pip install name_tools``
+
+or
+
+   ``easy_install name_tools``
+
+To install from a source package run
+
+   ``python setup.py install``
+
 Usage
 =====
 
