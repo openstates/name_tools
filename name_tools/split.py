@@ -54,11 +54,18 @@ def split(name):
     ('', 'Michael', 'S.', '')
     >>> split('Michael "Mike" Stephens')
     ('', 'Michael "Mike"', 'Stephens', '')
+    >>> split('Stephens Jr., Michael')
+    ('', 'Michael', 'Stephens', 'Jr.')
     """
     name_ns, suffixes = split_suffixes(name)
     i = name_ns.find(', ')
     if i != -1:
         last_part, first_part = name_ns.split(', ', 1)
+        last_part, more_suffixes = split_suffixes(last_part)
+        if more_suffixes:
+            if suffixes:
+                suffixes += " "
+            suffixes += more_suffixes
         prefixes, first_part = split_prefixes(first_part)
     else:
         # Look for compound last name
