@@ -56,9 +56,15 @@ def split(name):
     ('', 'Michael "Mike"', 'Stephens', '')
     >>> split('Stephens Jr., Michael')
     ('', 'Michael', 'Stephens', 'Jr.')
+    >>> split('His Honour, Mayor Michael J. Stephens')
+    ('His Honour, Mayor', 'Michael J.', 'Stephens', '')
+    >>> split('Major Stephens')
+    ('', 'Major', 'Stephens', '')
     """
     name_ns, suffixes = split_suffixes(name)
     i = name_ns.find(', ')
+
+    # Last part first
     if i != -1:
         last_part, first_part = name_ns.split(', ', 1)
         last_part, more_suffixes = split_suffixes(last_part)
@@ -66,20 +72,43 @@ def split(name):
             if suffixes:
                 suffixes += " "
             suffixes += more_suffixes
-        prefixes, first_part = split_prefixes(first_part)
-    else:
-        # Look for compound last name
-        prefixes, name_na = split_prefixes(name_ns)
-        m = _compound_pattern.search(name_na)
-        if m:
-            first_part = name_na[0:m.start()]
-            last_part = m.group(0)
-        else:
-            words = name_na.split()
-            first_part = ' '.join(words[0:-1])
-            last_part = words[-1]
 
-    return (prefixes, first_part.strip(), last_part.strip(), suffixes)
+        prefixes, first_part = split_prefixes(first_part)
+
+        first_part = first_part.strip()
+        last_part = last_part.strip()
+
+        # We check that first and last are not empty, and that
+        # last is not just prefixes (in which case we probably
+        # misinterpreted a prefix with a comma for a last name),
+        # skipping on to the other name splitting algorithm
+        # if true.
+        if last_part and first_part and split_prefixes(last_part)[1]:
+            return (prefixes, first_part, last_part, suffixes)
+
+    # First part last
+
+    # Look for compound last name
+    prefixes, name_na = split_prefixes(name_ns)
+    m = _compound_pattern.search(name_na)
+    if m:
+        first_part = name_na[0:m.start()]
+        last_part = m.group(0)
+    else:
+        words = name_na.split()
+        first_part = ' '.join(words[0:-1])
+        last_part = words[-1]
+
+    first_part = first_part.strip()
+    last_part = last_part.strip()
+
+    # Some 'prefixes' can also be first names (e.g. 'Major'). If
+    # we found one prefix and no first name, swap them.
+    if prefixes and not first_part and ' ' not in prefixes:
+        first_part = prefixes
+        prefixes = ''
+
+    return (prefixes, first_part, last_part, suffixes)
 
 
 _namecase = {'ii': 'II', 'iii': 'III', 'iv': 'IV', 'vi': 'VI', 'vii': 'vii'}
