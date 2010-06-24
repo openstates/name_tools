@@ -60,6 +60,8 @@ def split(name):
     ('His Honour, Mayor', 'Michael J.', 'Stephens', '')
     >>> split('Major Stephens')
     ('', 'Major', 'Stephens', '')
+    >>> split('Van Stephens')
+    ('', 'Van', 'Stephens', '')
     """
     name_ns, suffixes = split_suffixes(name)
     i = name_ns.find(', ')
@@ -86,12 +88,12 @@ def split(name):
         if last_part and first_part and split_prefixes(last_part)[1]:
             return (prefixes, first_part, last_part, suffixes)
 
-    # First part last
+    # First part first
 
     # Look for compound last name
     prefixes, name_na = split_prefixes(name_ns)
     m = _compound_pattern.search(name_na)
-    if m:
+    if m and m.start() != 0:
         first_part = name_na[0:m.start()]
         last_part = m.group(0)
     else:
