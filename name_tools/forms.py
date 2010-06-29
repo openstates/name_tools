@@ -1,7 +1,7 @@
 import name_tools
 
 
-def forms(name):
+def name_forms(name):
     """
     >>> forms = name_forms("Michael Stephens")
     >>> 'michael stehpens' in forms
