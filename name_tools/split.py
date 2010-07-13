@@ -60,6 +60,8 @@ def split(name):
     ('His Honour, Mayor', 'Michael J.', 'Stephens', '')
     >>> split('Major Stephens')
     ('', 'Major', 'Stephens', '')
+    >>> split('Stephens, Major')
+    ('', 'Major', 'Stephens', '')
     >>> split('Van Stephens')
     ('', 'Van', 'Stephens', '')
     """
@@ -76,6 +78,9 @@ def split(name):
             suffixes += more_suffixes
 
         prefixes, first_part = split_prefixes(first_part)
+        if prefixes and not first_part and ' ' not in prefixes:
+            first_part = prefixes
+            prefixes = ''
 
         first_part = first_part.strip()
         last_part = last_part.strip()
