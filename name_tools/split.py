@@ -64,6 +64,8 @@ def split(name):
     ('', 'Major', 'Stephens', '')
     >>> split('Van Stephens')
     ('', 'Van', 'Stephens', '')
+    >>> split('Representative Justice')
+    ('Representative', '', 'Justice', '')
     """
     name_ns, suffixes = split_suffixes(name)
     i = name_ns.find(', ')
@@ -104,7 +106,10 @@ def split(name):
     else:
         words = name_na.split()
         first_part = ' '.join(words[0:-1])
-        last_part = words[-1]
+        if not words:
+            last_part = ''
+        else:
+            last_part = words[-1]
 
     first_part = first_part.strip()
     last_part = last_part.strip()
@@ -114,6 +119,14 @@ def split(name):
     if prefixes and not first_part and ' ' not in prefixes:
         first_part = prefixes
         prefixes = ''
+
+    # Sometimes a last name looks like a prefix. If we found
+    # prefixes but no last name, the last prefix is probably
+    # actually the last name
+    if prefixes and not last_part:
+        pre_words = prefixes.split()
+        last_part = pre_words[-1]
+        prefixes = ' '.join(pre_words[0:-1])
 
     return (prefixes, first_part, last_part, suffixes)
 
