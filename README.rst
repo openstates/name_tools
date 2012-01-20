@@ -6,7 +6,7 @@ A Python library for manipulating and comparing English, Western-style personal 
 
 Released under a BSD-style license.
 
-Source: http://github.com/mikejs/name_tools
+Source: http://github.com/sunlightlabs/name_tools
 
 Installation
 ============
