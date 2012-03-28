@@ -32,7 +32,7 @@ _prefixes = ['Mr', 'Mister', 'Mrs', 'Ms', 'Miss', 'Dr', 'Doctor',
              'Major', 'Maj', 'Officer', 'Pilot',
              'Warrant', 'Officer', 'Cadet', 'Reverand',
              'Minister', 'Venerable', 'Father', 'Mother', 'Brother',
-             'Sister', 'Rabbi', 'Fleet']
+             'Sister', 'Rabbi', 'Fleet', 'Sr', 'Sra', 'Srta']
 
 # The suffixes are obviously not all acronyms but there are probably
 # plenty of people out there mistakenly writing things like 'J.r.',
