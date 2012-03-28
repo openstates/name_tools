@@ -16,13 +16,13 @@ _suffixes = ['Jr', 'Sr', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII',
             'USA', 'USAF', 'USMC', 'USCG', 'USN', 'Ret', r'\(Ret\)',
             'CPA', 'Junior', 'Senior']
 
-_prefixes = ['Mr', 'Mister', 'Mrs', 'Ms', 'Miss', 'Dr', 'Doctor',
+_prefixes = ['Mr', 'Mister', 'Mrs', 'Ms', 'Miss', 'Dr', 'Doctora?',
              'Professor', 'The', 'Honou?rable', 'Chief', 'Justice',
              'His', 'Her', 'Honou?r', 'Mayor', 'Associate', 'Majesty',
              'Judge', 'Master', 'Sen', 'Senator', 'Rep', 'Deputy',
              'Representative', 'Congress(wo)?man', 'Sir', 'Dame',
              'Speaker', r'(Majority|Minority)\W+Leader',
-             'President', 'Chair(wo)?man', 'Pres', 'Governor',
+             'Presidente?', 'Chair(wo)?man', 'Pres', 'Governor',
              'Gov', 'Assembly\W+Member', 'Highness', 'Hon',
              'Prime\W+Minister', r'P\.?M', 'Admiral', 'Adm',
              'Colonel', 'Col', 'General', 'Gen', 'Captain',
@@ -32,7 +32,9 @@ _prefixes = ['Mr', 'Mister', 'Mrs', 'Ms', 'Miss', 'Dr', 'Doctor',
              'Major', 'Maj', 'Officer', 'Pilot',
              'Warrant', 'Officer', 'Cadet', 'Reverand',
              'Minister', 'Venerable', 'Father', 'Mother', 'Brother',
-             'Sister', 'Rabbi', 'Fleet']
+             'Sister', 'Rabbi', 'Fleet', 'Sr', 'Sra', 'Srta', 'Alcalde(sa)?',
+             'Senadora?', 'Representante', 'Legisladora?', 'Gobernadora?',
+             'Comisionado','Residente']
 
 # The suffixes are obviously not all acronyms but there are probably
 # plenty of people out there mistakenly writing things like 'J.r.',
