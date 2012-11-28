@@ -62,12 +62,12 @@ and 'William Frederick Halsey').
   >>> name_tools.match('Eric Schmidt', 'Eric Schmidt')
   1.0
   >>> name_tools.match('Bob Dole', 'Dole, Bob')
-  0.97999999999999998
+  0.98
   >>> name_tools.match("Mr. X", "X")
-  0.94999999999999996
+  0.95
   >>> name_tools.match('Jeff Tweedy', 'J Tweedy')
-  0.90000000000000002
+  0.9
   >>> name_tools.match('Ferris Bueller', 'Bueller')
-  0.80000000000000004
+  0.8
   >>> name_tools.match('John Smith', 'John Johnson')
   0.0

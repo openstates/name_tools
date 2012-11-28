@@ -1,8 +1,8 @@
 import re
-from affixes import drop_prefixes, drop_suffixes
-from split import split
 from itertools import combinations
 import string
+from .affixes import drop_prefixes, drop_suffixes
+from .split import split
 
 
 def initial_initial(name):
