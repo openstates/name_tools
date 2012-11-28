@@ -1,8 +1,8 @@
 import re
-from affixes import drop_prefixes, drop_suffixes
-from split import split
 from itertools import combinations
 import string
+from .affixes import drop_prefixes, drop_suffixes
+from .split import split
 
 
 def initial_initial(name):
@@ -38,7 +38,7 @@ def last_first(name):
     return lp + " ".join([p for p in [pre, fp, suf] if p])
 
 
-_funcs = {string.lower: 0.01,
+_funcs = {(lambda s: s.lower()): 0.01,
           (lambda s: s.replace('.', '')): 0.02,
           (lambda s: s.replace(',', '')): 0.02,
           initial_initial: 0.10,
@@ -50,7 +50,7 @@ _funcs = {string.lower: 0.01,
           last_only: 0.20}
 
 _combinations = []
-for n in xrange(0, len(_funcs)):
+for n in range(0, len(_funcs)):
     _combinations.extend(combinations(_funcs.items(), n))
 
 

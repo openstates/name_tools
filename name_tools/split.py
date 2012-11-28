@@ -1,5 +1,5 @@
-from affixes import split_prefixes, split_suffixes
 import re
+from .affixes import split_prefixes, split_suffixes
 
 # List of compound prefixes adapted from
 # http://code.google.com/p/php-name-parser/
