@@ -137,7 +137,7 @@ _namecase = {'ii': 'II', 'iii': 'III', 'iv': 'IV', 'vi': 'VI', 'vii': 'vii'}
 
 
 def namecase(name):
-    ur"""
+    u"""
     >>> namecase('michael stephens')
     'Michael Stephens'
     >>> namecase('m. stephens')
@@ -149,9 +149,9 @@ def namecase(name):
     >>> namecase("michael o'stephens")
     "Michael O'Stephens"
     >>> namecase(u'michael gonzález')
-    u'Michael Gonz\xe1lez'
+    u'Michael Gonz\\xe1lez'
     """
-    return re.sub(r"\w+('\w+)?",
+    return re.sub(r"[^\W\d_]+('[^\W\d_]+)?",
                   lambda mo: _namecase.get(mo.group(0).lower(),
                                            mo.group(0).title()),
                   name, flags=re.UNICODE)
