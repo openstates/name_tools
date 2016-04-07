@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import re
 from .affixes import split_prefixes, split_suffixes
 
@@ -135,7 +137,7 @@ _namecase = {'ii': 'II', 'iii': 'III', 'iv': 'IV', 'vi': 'VI', 'vii': 'vii'}
 
 
 def namecase(name):
-    """
+    ur"""
     >>> namecase('michael stephens')
     'Michael Stephens'
     >>> namecase('m. stephens')
@@ -146,11 +148,13 @@ def namecase(name):
     'Michael Stephens, III'
     >>> namecase("michael o'stephens")
     "Michael O'Stephens"
+    >>> namecase(u'michael gonzález')
+    u'Michael Gonz\xe1lez'
     """
-    return re.sub(r"[A-Za-z]+('[A-Za-z]+])?",
+    return re.sub(r"\w+('\w+)?",
                   lambda mo: _namecase.get(mo.group(0).lower(),
                                            mo.group(0).title()),
-                  name)
+                  name, flags=re.UNICODE)
 
 
 def canonicalize(name):
