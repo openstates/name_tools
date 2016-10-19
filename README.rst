@@ -63,6 +63,8 @@ and 'William Frederick Halsey').
   1.0
   >>> name_tools.match('Bob Dole', 'Dole, Bob')
   0.98
+  >>> name_tools.match("michaeL StepHens", "MichaEl  StePhens")
+  0.98
   >>> name_tools.match("Mr. X", "X")
   0.95
   >>> name_tools.match('Jeff Tweedy', 'J Tweedy')

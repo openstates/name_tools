@@ -68,6 +68,10 @@ def match(name1, name2):
     True
     >>> abs(match("michaeL StepHens", "MichaEl StePhens") - 0.98) < 0.001
     True
+    >>> abs(match("michaeL StepHens", "MichaEl  StePhens") - 0.98) < 0.001
+    True
+    >>> abs(match("michaeL  StepHens", "MichaEl StePhens") - 0.98) < 0.001
+    True
     >>> abs(match("Michael J. Stephens", "Michael J Stephens") - 0.98) < 0.001
     True
     >>> abs(match("Michael Stephens", "Mr. Michael Stephens") - 0.95) < 0.001
@@ -92,6 +96,9 @@ def match(name1, name2):
 
     if not name1.strip() or not name2.strip():
         return 0.0
+
+    name1 = re.sub('  +', ' ', name1)
+    name2 = re.sub('  +', ' ', name2)
 
     s1 = set()
     s2 = set()
