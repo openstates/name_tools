@@ -2,7 +2,9 @@
 name_tools
 ==========
 
-**This library is no longer maintained.**  Consider a library like [probablepeople](https://github.com/datamade/probablepeople).
+**This library is no longer maintained.**
+
+Consider a library like `probablepeople <https://github.com/datamade/probablepeople>`_.
 
 A Python library for manipulating and comparing English, Western-style personal names.
 
