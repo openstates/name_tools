@@ -2,11 +2,13 @@
 name_tools
 ==========
 
+**This library is no longer maintained.**  Consider a library like [probablepeople](https://github.com/datamade/probablepeople).
+
 A Python library for manipulating and comparing English, Western-style personal names.
 
 Released under a BSD-style license.
 
-Source: http://github.com/sunlightlabs/name_tools
+Source: http://github.com/openstates/name_tools
 
 Installation
 ============
