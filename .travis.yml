@@ -3,4 +3,4 @@ python:
     - "2.7"
     - "3.4"
     - "3.7"
-script: python setup.py test
+script: python -m doctest README.rst
