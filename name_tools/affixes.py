@@ -10,11 +10,11 @@ import re
 # Of these, dropping the first 9 are the most likely to cause
 # false matches. Perhaps they should be treated separately?
 _suffixes = ['Jr', 'Sr', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII',
-            'PhD', 'MD', 'DD', 'JD', 'PharmD', 'PsyD', 'RN', 'EngD',
-            'DPhil', 'MA', 'MF', 'MBA', 'MSc', 'MEd', 'EdD', 'DMin',
-            'AB', 'BA', 'BFA', 'BSc', 'Esq', 'Esquire', 'MP', "MS",
-            'USA', 'USAF', 'USMC', 'USCG', 'USN', 'Ret', r'\(Ret\)',
-            'CPA', 'Junior', 'Senior']
+             'PhD', 'MD', 'DD', 'JD', 'PharmD', 'PsyD', 'RN', 'EngD',
+             'DPhil', 'MA', 'MF', 'MBA', 'MSc', 'MEd', 'EdD', 'DMin',
+             'AB', 'BA', 'BFA', 'BSc', 'Esq', 'Esquire', 'MP', "MS",
+             'USA', 'USAF', 'USMC', 'USCG', 'USN', 'Ret', r'\(Ret\)',
+             'CPA', 'Junior', 'Senior']
 
 _prefixes = ['Mr', 'Mister', 'Mrs', 'Ms', 'Miss', 'Dr', 'Doctora?',
              'Professor', 'The', 'Honou?rable', 'Chief', 'Justice',
@@ -23,8 +23,8 @@ _prefixes = ['Mr', 'Mister', 'Mrs', 'Ms', 'Miss', 'Dr', 'Doctora?',
              'Representative', 'Congress(wo)?man', 'Sir', 'Dame',
              'Speaker', r'(Majority|Minority)\W+Leader',
              'Presidente?', 'Chair(wo)?man', 'Pres', 'Governor',
-             'Gov', 'Assembly\W+Member', 'Highness', 'Hon',
-             'Prime\W+Minister', r'P\.?M', 'Admiral', 'Adm',
+             'Gov', r'Assembly\W+Member', 'Highness', 'Hon',
+             r'Prime\W+Minister', r'P\.?M', 'Admiral', 'Adm',
              'Colonel', 'Col', 'General', 'Gen', 'Captain',
              'Capt', 'Corporal', 'CPL', 'PFC', 'Private',
              r'First\W+Class', 'Sergeant', 'Sgt', 'Commissioner',
@@ -34,7 +34,7 @@ _prefixes = ['Mr', 'Mister', 'Mrs', 'Ms', 'Miss', 'Dr', 'Doctora?',
              'Minister', 'Venerable', 'Father', 'Mother', 'Brother',
              'Sister', 'Rabbi', 'Fleet', 'Sr', 'Sra', 'Srta', 'Alcalde(sa)?',
              'Senadora?', 'Representante', 'Legisladora?', 'Gobernadora?',
-             'Comisionado','Residente']
+             'Comisionado', 'Residente']
 
 # The suffixes are obviously not all acronyms but there are probably
 # plenty of people out there mistakenly writing things like 'J.r.',

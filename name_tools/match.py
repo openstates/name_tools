@@ -1,6 +1,5 @@
 import re
 from itertools import combinations
-import string
 from .affixes import drop_prefixes, drop_suffixes
 from .split import split
 

@@ -178,6 +178,7 @@ def canonicalize(name):
         canonical += ", " + namecase(suffixes)
     return canonical.strip()
 
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
